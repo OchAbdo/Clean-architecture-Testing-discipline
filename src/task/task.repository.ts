@@ -14,6 +14,10 @@ export class TaskRepository {
         return this.repo.findOneBy({ id });
     }
 
+    findAll(){
+        return this.repo.find()
+    }
+
     save(task: Task) {
         return this.repo.save(task);
     }
