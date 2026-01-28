@@ -1,4 +1,4 @@
-import { Injectable} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
 import { Task } from "./task.entity";
 
@@ -14,7 +14,7 @@ export class TaskRepository {
         return this.repo.findOneBy({ id });
     }
 
-    findAll(){
+    findAll() {
         return this.repo.find()
     }
 
@@ -26,12 +26,28 @@ export class TaskRepository {
         return this.repo.create(task);
     }
 
-    delete(id : number){
-        return this.repo.delete({id})
+    delete(id: number) {
+        return this.repo.delete({ id })
     }
 
-    remove(task : Task){
+    remove(task: Task) {
         return this.repo.remove(task)
+    }
+
+    async findPaginated(page: number, limit: number){
+        const skip = (page - 1) * limit;
+
+        const [data, total] = await this.repo.findAndCount({
+            skip,
+            take: limit,
+            order: { createdAt: 'DESC' },
+        });
+
+        return { data, total };
+    }
+
+    findbytitle(title : string){
+        return this.repo.findBy({title})
     }
 
 
