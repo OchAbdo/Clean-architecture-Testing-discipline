@@ -21,7 +21,8 @@ export class TaskService {
     }
 
     CreateTask(newtask : CreateTask) : Promise<Task>{
-        const task = this.repository.create(newtask)
+        
+        const task = this.repository.create({...newtask , createdAt:new Date(Date.now()) , updatedAt:new Date(Date.now())})
         return this.repository.save(task)
     }
 
